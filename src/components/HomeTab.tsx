@@ -159,6 +159,21 @@ export default function HomeTab({
             <p className="font-label-caps text-xs text-on-surface-variant tracking-wider uppercase">READY TO DEPLOY</p>
             <div className="h-[1px] w-12 bg-outline-variant"></div>
           </div>
+
+          <section className="w-full max-w-xl bg-surface-container/75 backdrop-blur border border-outline-variant/50 rounded-2xl p-4 md:p-5 text-left">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <h2 className="font-headline-sm text-sm md:text-base text-primary font-bold uppercase tracking-wider">
+                Quick Pilot Guide
+              </h2>
+              <span className="material-symbols-outlined text-primary text-lg">sports_esports</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-on-surface-variant">
+              <p><span className="text-on-surface font-bold">Explore:</span> choose missions and unlock new sectors by winning battles.</p>
+              <p><span className="text-on-surface font-bold">Garage:</span> select a mech, repair damage, and equip stat mods.</p>
+              <p><span className="text-on-surface font-bold">Attack:</span> strike the titan, build combo, and raise your score.</p>
+              <p><span className="text-on-surface font-bold">Defend:</span> charge a shield before the next enemy hit lands.</p>
+            </div>
+          </section>
         </motion.div>
       </div>
 
