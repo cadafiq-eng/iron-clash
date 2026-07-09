@@ -44,6 +44,8 @@ export interface Mission {
   description: string;
 }
 
+export type GameMode = 'kids' | 'adult';
+
 export interface PlayerState {
   pilotName: string;
   level: number;

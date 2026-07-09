@@ -19,10 +19,11 @@ The dev server runs on port `3000` by default.
 ## How to play
 
 1. Start in `HOME`, name your pilot, and press `BATTLE` for a quick fight.
-2. Use `GARAGE` to choose a mech, repair chassis damage, and equip mods.
-3. Use `EXPLORE` to select missions. Completing missions unlocks later sectors.
-4. In battle, press `ATTACK` to damage the titan and `DEFEND` to reduce the next enemy strike.
-5. Win battles to earn XP, raise your level, improve your score, and advance through the map.
+2. Pick `Kids` for a friendlier Neon Quest style or `Adult` for a darker cockpit style.
+3. Use `GARAGE` to choose a mech, repair chassis damage, and equip mods.
+4. Use `EXPLORE` to select missions. Completing missions unlocks later sectors.
+5. In battle, press `ATTACK` or `ENERGY` to damage the rival and `DEFEND` to reduce the next hit.
+6. Win battles to earn XP, raise your level, improve your score, and advance through the map.
 
 ## Validate
 

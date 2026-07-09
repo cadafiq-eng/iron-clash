@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { playSynthBeep, INITIAL_MECHS, INITIAL_MISSIONS } from './gameData';
-import { Mech, Mission } from './types';
+import { GameMode, Mech, Mission } from './types';
 import HomeTab from './components/HomeTab';
 import GarageTab from './components/GarageTab';
 import ExploreTab from './components/ExploreTab';
@@ -40,6 +40,10 @@ export default function App() {
 
   const [selectedMechId, setSelectedMechId] = useState<string>(() => {
     return localStorage.getItem('selectedMechId') || 'red-leader';
+  });
+
+  const [gameMode, setGameMode] = useState<GameMode>(() => {
+    return localStorage.getItem('gameMode') === 'kids' ? 'kids' : 'adult';
   });
 
   const [completedMissions, setCompletedMissions] = useState<string[]>(() => {
@@ -89,6 +93,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('selectedMechId', selectedMechId);
   }, [selectedMechId]);
+
+  useEffect(() => {
+    localStorage.setItem('gameMode', gameMode);
+  }, [gameMode]);
 
   useEffect(() => {
     localStorage.setItem('completedMissions', JSON.stringify(completedMissions));
@@ -238,9 +246,11 @@ export default function App() {
               xp={xp}
               highScore={highScore}
               selectedMech={activeMechWithMods}
+              gameMode={gameMode}
               onDeployBattle={() => setActiveTab('battle')}
               onNavTab={handleTabChange}
               onUpdatePilotName={setPilotName}
+              onUpdateGameMode={setGameMode}
             />
           )}
 
@@ -267,6 +277,8 @@ export default function App() {
               selectedMech={activeMechWithMods}
               activeMission={activeMission}
               pilotName={pilotName}
+              gameMode={gameMode}
+              onUpdateGameMode={setGameMode}
               onBattleVictory={handleBattleVictory}
               onBattleDefeat={handleBattleDefeat}
               onExitBattle={handleExitBattle}

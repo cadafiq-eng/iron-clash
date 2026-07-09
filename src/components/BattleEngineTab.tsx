@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { playSynthBeep, getCustomizedStats } from '../gameData';
-import { Mech, Mission } from '../types';
+import { GameMode, Mech, Mission } from '../types';
 
 interface BattleEngineTabProps {
   selectedMech: Mech;
   activeMission: Mission | null;
   pilotName: string;
+  gameMode: GameMode;
+  onUpdateGameMode: (mode: GameMode) => void;
   onBattleVictory: (xpEarned: number, scoreGained: number) => void;
   onBattleDefeat: (damageTaken: number) => void;
   onExitBattle: (destination: 'explore' | 'garage') => void;
@@ -24,12 +26,14 @@ export default function BattleEngineTab({
   selectedMech,
   activeMission,
   pilotName,
+  gameMode,
+  onUpdateGameMode,
   onBattleVictory,
   onBattleDefeat,
   onExitBattle,
 }: BattleEngineTabProps) {
-  // Toggle between Cybernetic Dark (cockpit) and Neon Quest (friendly sky city)
-  const [engineMode, setEngineMode] = useState<'dark' | 'neon'>('dark');
+  // Toggle between Cybernetic Dark (adult) and Neon Quest (kids)
+  const [engineMode, setEngineMode] = useState<'dark' | 'neon'>(() => gameMode === 'kids' ? 'neon' : 'dark');
 
   // Game state
   const [playerHP, setPlayerHP] = useState<number>(() => selectedMech.chassisIntegrity);
@@ -44,6 +48,10 @@ export default function BattleEngineTab({
 
   // Get current mech stats with mods
   const customizedStats = getCustomizedStats(selectedMech, selectedMech.equippedMods);
+
+  useEffect(() => {
+    setEngineMode(gameMode === 'kids' ? 'neon' : 'dark');
+  }, [gameMode]);
 
   useEffect(() => {
     setPlayerHP(selectedMech.chassisIntegrity);
@@ -165,6 +173,12 @@ export default function BattleEngineTab({
     logEvent('SHIELD: TACTICAL FORCE FIELD CHARGED');
   };
 
+  const handleEngineModeChange = (mode: 'dark' | 'neon') => {
+    playSynthBeep('click');
+    setEngineMode(mode);
+    onUpdateGameMode(mode === 'neon' ? 'kids' : 'adult');
+  };
+
   // Environment and theme variables depending on mode
   const isDark = engineMode === 'dark';
   const playerLabel = isDark ? 'PILOT_X_01' : 'HERO_ONE';
@@ -241,16 +255,16 @@ export default function BattleEngineTab({
       <div className="fixed top-24 left-1/2 -translate-x-1/2 z-30 bg-surface-container/85 border border-outline-variant/50 rounded-full px-4 py-1 flex items-center gap-3">
         <span className="text-[10px] font-label-caps text-on-surface-variant font-bold">MODE:</span>
         <button
-          onClick={() => { playSynthBeep('click'); setEngineMode('dark'); }}
+          onClick={() => handleEngineModeChange('dark')}
           className={`text-[10px] font-bold font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${isDark ? 'bg-primary text-on-primary' : 'text-on-surface-variant'}`}
         >
-          DARK COCKPIT
+          ADULT
         </button>
         <button
-          onClick={() => { playSynthBeep('click'); setEngineMode('neon'); }}
+          onClick={() => handleEngineModeChange('neon')}
           className={`text-[10px] font-bold font-mono px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${!isDark ? 'bg-tertiary text-on-tertiary' : 'text-on-surface-variant'}`}
         >
-          NEON QUEST
+          KIDS
         </button>
       </div>
 

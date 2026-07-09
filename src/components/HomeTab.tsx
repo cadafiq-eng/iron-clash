@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { playSynthBeep } from '../gameData';
-import { Mech } from '../types';
+import { GameMode, Mech } from '../types';
 
 interface HomeTabProps {
   pilotName: string;
@@ -8,9 +8,11 @@ interface HomeTabProps {
   xp: number;
   highScore: number;
   selectedMech: Mech;
+  gameMode: GameMode;
   onDeployBattle: () => void;
   onNavTab: (tab: 'home' | 'garage' | 'explore' | 'battle') => void;
   onUpdatePilotName: (name: string) => void;
+  onUpdateGameMode: (mode: GameMode) => void;
 }
 
 export default function HomeTab({
@@ -19,13 +21,20 @@ export default function HomeTab({
   xp,
   highScore,
   selectedMech,
+  gameMode,
   onDeployBattle,
   onNavTab,
   onUpdatePilotName,
+  onUpdateGameMode,
 }: HomeTabProps) {
   const handleDeployClick = () => {
     playSynthBeep('select');
     onDeployBattle();
+  };
+
+  const handleModeChange = (mode: GameMode) => {
+    playSynthBeep('select');
+    onUpdateGameMode(mode);
   };
 
   return (
@@ -133,6 +142,49 @@ export default function HomeTab({
           </p>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55 }}
+          className="mt-6 w-full max-w-md bg-surface-container/75 backdrop-blur border border-outline-variant/50 rounded-2xl p-3"
+        >
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <div>
+              <p className="font-label-caps text-[10px] text-primary uppercase tracking-widest">Experience Mode</p>
+              <p className="text-xs text-on-surface-variant">
+                {gameMode === 'kids'
+                  ? 'Friendly visuals, lighter hits, quest language.'
+                  : 'Darker cockpit tone, stronger impacts, tactical language.'}
+              </p>
+            </div>
+            <span className="material-symbols-outlined text-primary">tune</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => handleModeChange('kids')}
+              className={`rounded-full px-4 py-2 text-xs font-bold uppercase transition-colors cursor-pointer ${
+                gameMode === 'kids'
+                  ? 'bg-tertiary text-on-tertiary'
+                  : 'bg-surface-container-high text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Kids
+            </button>
+            <button
+              type="button"
+              onClick={() => handleModeChange('adult')}
+              className={`rounded-full px-4 py-2 text-xs font-bold uppercase transition-colors cursor-pointer ${
+                gameMode === 'adult'
+                  ? 'bg-primary text-on-primary'
+                  : 'bg-surface-container-high text-on-surface-variant hover:text-on-surface'
+              }`}
+            >
+              Adult
+            </button>
+          </div>
+        </motion.div>
+
         {/* Center Battle Deployment Area */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -170,8 +222,8 @@ export default function HomeTab({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-on-surface-variant">
               <p><span className="text-on-surface font-bold">Explore:</span> choose missions and unlock new sectors by winning battles.</p>
               <p><span className="text-on-surface font-bold">Garage:</span> select a mech, repair damage, and equip stat mods.</p>
-              <p><span className="text-on-surface font-bold">Attack:</span> strike the titan, build combo, and raise your score.</p>
-              <p><span className="text-on-surface font-bold">Defend:</span> charge a shield before the next enemy hit lands.</p>
+              <p><span className="text-on-surface font-bold">{gameMode === 'kids' ? 'Energy:' : 'Attack:'}</span> {gameMode === 'kids' ? 'zap the robot, build streaks, and raise your score.' : 'strike the titan, build combo, and raise your score.'}</p>
+              <p><span className="text-on-surface font-bold">Defend:</span> charge a shield before the next {gameMode === 'kids' ? 'robot bump' : 'enemy hit'} lands.</p>
             </div>
           </section>
         </motion.div>
