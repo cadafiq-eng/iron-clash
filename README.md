@@ -24,6 +24,7 @@ The dev server runs on port `3000` by default.
 4. Use `EXPLORE` to select missions. Completing missions unlocks later sectors.
 5. In battle, press `ATTACK` or `ENERGY` to damage the rival and `DEFEND` to reduce the next hit.
 6. Win battles to earn XP, raise your level, improve your score, and advance through the map.
+7. Use `Reset Progress` on `HOME` to clear saved progress and start again.
 
 ## Validate
 

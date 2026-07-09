@@ -179,6 +179,29 @@ export default function App() {
     setActiveTab(destination);
   };
 
+  const handleResetProgress = () => {
+    const confirmed = window.confirm('Reset all saved progress and start over?');
+    if (!confirmed) return;
+
+    const defaultEquippedMods: Record<string, string[]> = {};
+    INITIAL_MECHS.forEach(m => {
+      defaultEquippedMods[m.id] = m.equippedMods;
+    });
+
+    setPilotName('PILOT_X_01');
+    setLevel(42);
+    setXp(2450);
+    setHighScore(42850);
+    setSelectedMechId('red-leader');
+    setGameMode('adult');
+    setCompletedMissions(['mission-01']);
+    setMechs(INITIAL_MECHS);
+    setEquippedMods(defaultEquippedMods);
+    setActiveMission(INITIAL_MISSIONS[1]);
+    setActiveTab('home');
+    playSynthBeep('level-up');
+  };
+
   const handleTabChange = (tab: 'home' | 'garage' | 'explore' | 'battle') => {
     playSynthBeep('click');
     setActiveTab(tab);
@@ -251,6 +274,7 @@ export default function App() {
               onNavTab={handleTabChange}
               onUpdatePilotName={setPilotName}
               onUpdateGameMode={setGameMode}
+              onResetProgress={handleResetProgress}
             />
           )}
 

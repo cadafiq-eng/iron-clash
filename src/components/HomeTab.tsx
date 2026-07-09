@@ -13,6 +13,7 @@ interface HomeTabProps {
   onNavTab: (tab: 'home' | 'garage' | 'explore' | 'battle') => void;
   onUpdatePilotName: (name: string) => void;
   onUpdateGameMode: (mode: GameMode) => void;
+  onResetProgress: () => void;
 }
 
 export default function HomeTab({
@@ -26,6 +27,7 @@ export default function HomeTab({
   onNavTab,
   onUpdatePilotName,
   onUpdateGameMode,
+  onResetProgress,
 }: HomeTabProps) {
   const handleDeployClick = () => {
     playSynthBeep('select');
@@ -183,6 +185,13 @@ export default function HomeTab({
               Adult
             </button>
           </div>
+          <button
+            type="button"
+            onClick={onResetProgress}
+            className="mt-3 w-full rounded-full border border-error/50 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-error hover:bg-error/10 transition-colors cursor-pointer"
+          >
+            Reset Progress
+          </button>
         </motion.div>
 
         {/* Center Battle Deployment Area */}
